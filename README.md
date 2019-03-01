@@ -29,6 +29,23 @@ Substrate是Polkadot的底层技术平台和框架，同时也是未来创新区
 
 
 
-以上每个课程都有中文和英文版本。
+以上每个课程都有[中文](https://github.com/chainx-org/Quick-Start-Substrate/tree/master/zh)和[英文](https://github.com/chainx-org/Quick-Start-Substrate/tree/master/en)版本。
 
 开始享受Substrate之旅吧！
+
+
+
+可能有用的链接：
+
+rust doc  https://doc.rust-lang.org/
+nodejs doc https://nodejs.org/en/docs/
+
+polkadot https://github.com/paritytech/polkadot
+polkadot explorer https://polkadot.js.org/apps/#/explorer
+substrate https://github.com/paritytech/substrate
+substrate docs https://substrate.readme.io/v1.0.0/docs
+
+telemetry https://telemetry.polkadot.io/
+substrate-ui https://github.com/paritytech/substrate-ui
+oo7 https://github.com/paritytech/oo7
+api docs https://paritytech.github.io/oo7/
