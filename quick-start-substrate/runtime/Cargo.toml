@@ -15,7 +15,7 @@ runtime-io = { package = "sr-io", git = "https://github.com/paritytech/substrate
 version = { package = "sr-version", git = "https://github.com/paritytech/substrate", default_features = false }
 support = { package = "srml-support", git = "https://github.com/paritytech/substrate", default_features = false }
 primitives = { package = "substrate-primitives", git = "https://github.com/paritytech/substrate", default_features = false }
-balances = { package = "srml-balances",git = "https://github.com/paritytech/substrate", default_features = false }
+balances = { package = "srml-balances", git = "https://github.com/paritytech/substrate", default_features = false }
 fees = { package = "srml-fees", git = "https://github.com/paritytech/substrate", default_features = false }
 consensus = { package = "srml-consensus", git = "https://github.com/paritytech/substrate", default_features = false }
 aura = { package = "srml-aura", git = "https://github.com/paritytech/substrate", default_features = false }

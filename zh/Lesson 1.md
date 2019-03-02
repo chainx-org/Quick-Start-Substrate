@@ -53,7 +53,7 @@ substrate.runtimeUp.then(() => {
 
  执行chain.js 文件，会有类似持续输出：
 
-```
+```javascript
 ...
 new block by block number: 220
 new block by block number: 221
@@ -71,7 +71,7 @@ new block by block number: 223
 
 新建balance.js文件，代码如下：
 
-```
+```javascript
 const substrate = require('oo7-substrate');
 const nacl = require('tweetnacl');
 substrate.setNodeUri(["ws://127.0.0.1:9944"]); //设置节点RPC ws协议地址
@@ -91,7 +91,7 @@ substrate.runtimeUp.then(() => {
 
 执行以上文件node balance.js 即可看到以下类似输出：
 
-```
+```javascript
 d172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f Alice FreeBalance= 100000000
 ```
 
@@ -105,7 +105,7 @@ FreeBalance= 100000000即是Alice的余额。
 
 在这里我们调用substrate.calls.balances.transfer接口发起转账，新建transfer.js文件代码如下：
 
-```
+```javascript
 const substrate = require('oo7-substrate');
 const nacl = require('tweetnacl');
 let secretstore = substrate.secretStore();
@@ -135,7 +135,7 @@ substrate.runtimeUp.then(() => {
 
 执行transfer.js，即可看到类似下面信息:
 
-```
+```javascript
 { sending: true }
 ready
 { broadcast: [ 'Qmcbbyx5zJuHSp2gmA9E6WjJirvj3pFdFUYSFQBpjsQBKJ' ] }
@@ -149,7 +149,7 @@ ready
 
 本课中，我们学习了利用oo7与Substrate链API进行交互，实现了余额查询和转账功能。更进一步学习，可以利用API实时获取Substrate链的所有信息，搭建一个区块链浏览器。
 
-
+*本课代码可在https://github.com/chainx-org/Quick-Start-Substrate/tree/master/app 查看*
 
 
 

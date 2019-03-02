@@ -80,7 +80,7 @@ cd Quick-Start-Substrate/quick-start-substrate
 2019-03-01 21:19:21 Listening for new connections on 127.0.0.1:9944.
 ```
 
-**注意输出中的/ip4/0.0.0.0/tcp/30333/p2p/QmVky5aVaPhardUzSfYSQPhAhdkNiMQVzRGyPEe2vkxn3U 是节点地址标识，在启动其他节点时会用到其标识来连接**
+*注意输出中的/ip4/0.0.0.0/tcp/30333/p2p/QmVky5aVaPhardUzSfYSQPhAhdkNiMQVzRGyPEe2vkxn3U 是节点地址标识，在启动其他节点时会用到其标识来连接*
 
 #### 运行第二个节点
 

@@ -16,3 +16,7 @@ chainx/runtime/wasm/target/
 .vs/
 .idea/
 bak/
+*/node_modules/*
+*/Alice/*
+*/Bob/*
+
