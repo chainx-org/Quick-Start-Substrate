@@ -34,13 +34,16 @@ Runtime是理解和实现Substrate链关键，如果我们想要在Substrate基�
 
 #### 导入模块依赖
 
-导入依赖，并继承balances::Trait
+导入依赖，并继承`balances::Trait`和`system::Trait`
 
 ```rust
+use codec::Encode;
+use runtime_primitives::traits::As;
+use runtime_primitives::traits::Hash;
 use support::{decl_event, decl_module, decl_storage, dispatch::Result, StorageValue};
 use system::ensure_signed;
 
-pub trait Trait: balances::Trait {
+pub trait Trait: system::Trait + balances::Trait {
     // TODO: Add other types and constants required configure this module.
     type Event: From<Event<Self>> + Into<<Self as system::Trait>::Event>;
 }
@@ -68,9 +71,8 @@ Event代表的是Runtime模块在运行时的重要信息记录，将被存储�
 ```rust
 decl_event!(
     /// An event in this module.
-    pub enum Event<T>
-    where
-        AccountId = <T as system::Trait>::AccountId,
+    pub enum Event<T>  where
+    <T as system::Trait>::AccountId
     {
         // Event `Win` is declared with a parameter of the type `AccountId` and `u32`
         Win(AccountId, u32),
@@ -108,23 +110,23 @@ decl_module! {
 在`play`部分，我们需要对用户的参数进行处理和校验，然后根据游戏规则，对其进行中奖判断，如果中奖则给予Coin奖励,并调用存储到``put`接口更新游戏轮次。将以下代码填上`play`函数体中。
 
 ```rust
+ // TODO: You only need this if you want to check it was signed.
 let who = ensure_signed(origin)?;
 //make sure < 10
-let lucky=lucky%10;
+let catch:u8=(lucky as u8)%10;
 //User must pays 10 coins
-<balances::Module<T>>::decrease_free_balance(&who, 10)?;
+<balances::Module<T>>::decrease_free_balance(&who, As::sa(10))?;
 
-// Then we flip a coin by generating a random seed
-// We pass the seed with our sender's account id into a hash algorithm
-// Then we check if the first byte of the hash is less than 128
-if (<system::Module<T>>::random_seed())
-.using_encoded(|e| e[0] % 10 == lucky)
+// Then we check if the first byte of the hash is equal lucky
+if (<system::Module<T>>::random_seed(), &who)
+.using_encoded(<T as system::Trait>::Hashing::hash)
+.using_encoded(|e| (e[0] % 10) == catch )
 {
-    //Catch Lucky , Double Coin Back!
-    <balances::Module<T>>::increase_free_balance_creating(&who, 20);
+    //Catch Lucky , Double Coin Back
+    <balances::Module<T>>::increase_free_balance_creating(&who, As::sa(20));
 
     //Update  count
-    let count=<Count<T>>::get();
+    let mut count=<Count<T>>::get();
     count=count+1;
     <Count<T>>::put(count);
 }
@@ -148,7 +150,7 @@ impl game::Trait for Runtime {
 }
 ```
 
-接种，需要将game模块添加到construct_runtime宏定义中
+接着，需要将game模块添加到construct_runtime宏定义中
 
 ```rust
 construct_runtime!(
@@ -172,7 +174,7 @@ construct_runtime!(
 
 接着参考[Lesson 0]((https://github.com/chainx-org/Quick-Start-Substrate/blob/master/zh/Lesson%200.md) )中的操作步骤清除数据目录，重启测试网！
 
-#### 客户端调用游戏模块接口
+#### 客户端调用Game模块接口
 
 参考[Lesson 1]((https://github.com/chainx-org/Quick-Start-Substrate/blob/master/zh/Lesson%201.md) ) 中`transfer.js`对交易的处理，新增`game.js`  文件，调用链上game模块的play接口，代码如下：
 

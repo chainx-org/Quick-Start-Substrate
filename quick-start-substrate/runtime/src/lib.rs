@@ -7,28 +7,6 @@
 
 extern crate parity_codec as codec;
 
-#[macro_use]
-extern crate client;
-extern crate consensus_aura;
-extern crate primitives;
-
-#[macro_use]
-extern crate runtime_primitives;
-#[macro_use]
-extern crate version as version;
-#[cfg_attr(not(feature = "std"), macro_use)]
-extern crate rstd;
-extern crate runtime_io as runtime_io;
-
-#[macro_use]
-extern crate support;
-extern crate balances;
-extern crate consensus;
-extern crate indices;
-extern crate sudo;
-extern crate system;
-extern crate timestamp;
-
 use client::{
     block_builder::api::{self as block_builder_api, CheckInherentsResult, InherentData},
     impl_runtime_apis, runtime_api,

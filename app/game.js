@@ -14,7 +14,7 @@ let Bob_KeyPair=nacl.sign.keyPair.fromSeed(substrate.stringToSeed('Bob'))//Bob�
 
 //初始化oo7环境
 substrate.runtimeUp.then(() => {
-    let lucky=5
+    let lucky=1
     substrate.calls.game.play(lucky).tie((data) => {
     //发送交易
         substrate.post({

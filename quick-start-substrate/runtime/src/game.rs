@@ -1,3 +1,6 @@
+use codec::Encode;
+use runtime_primitives::traits::As;
+use runtime_primitives::traits::Hash;
 use support::{decl_event, decl_module, decl_storage, dispatch::Result, StorageValue};
 use system::ensure_signed;
 
@@ -16,9 +19,8 @@ decl_storage! {
 
 decl_event!(
     /// An event in this module.
-    pub enum Event<T>
-    where
-        AccountId = <T as system::Trait>::AccountId,
+    pub enum Event<T>  where
+    <T as system::Trait>::AccountId
     {
         // Event `Win` is declared with a parameter of the type `AccountId` and `u32`
         Win(AccountId, u32),
@@ -38,21 +40,20 @@ decl_module! {
             // TODO: You only need this if you want to check it was signed.
             let who = ensure_signed(origin)?;
             //make sure < 10
-            let lucky=lucky%10;
+            let catch:u8=(lucky as u8)%10;
             //User must pays 10 coins
-            let pay:T::Balance=10;
-            <balances::Module<T>>::decrease_free_balance(&who, pay)?;
+            <balances::Module<T>>::decrease_free_balance(&who, As::sa(10))?;
 
             // Then we check if the first byte of the hash is equal lucky
             if (<system::Module<T>>::random_seed(), &who)
             .using_encoded(<T as system::Trait>::Hashing::hash)
-            .using_encoded(|e| e[0] % 10 == lucky)
+            .using_encoded(|e| (e[0] % 10) == catch )
             {
                 //Catch Lucky , Double Coin Back
-                <balances::Module<T>>::increase_free_balance_creating(&who, pay*2);
+                <balances::Module<T>>::increase_free_balance_creating(&who, As::sa(20));
 
-                //update  count
-                let count=<Count<T>>::get();
+                //Update  count
+                let mut count=<Count<T>>::get();
                 count=count+1;
                 <Count<T>>::put(count);
             }
