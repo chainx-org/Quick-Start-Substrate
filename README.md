@@ -7,23 +7,22 @@ Substrate是Polkadot的底层技术平台和框架，同时也是未来创新区
 在假设开发者具备了解区块链基础知识（区块、交易、链、共识、P2P、签名等基本概念）和一定的编程经验的情况下，通过以下三个阶段可以达到目标。这三个阶段是逐步递进的，深度和难度也是逐步上升的。
 
 - 入门
-  - [Lesson 0](https://github.com/chainx-org/Quick-Start-Substrate/blob/master/zh/Lesson%200.md) 学习搭建Substreate网络，多节点组网
-  - [Lesson 1](https://github.com/chainx-org/Quick-Start-Substrate/blob/master/zh/Lesson%201.md) 学习客户端与区块链的交互方式
-  - [Lesson 2](https://github.com/chainx-org/Quick-Start-Substrate/blob/master/zh/Lesson%201.md) 学习调用区块链API接口
-  - [Lesson 3](https://github.com/chainx-org/Quick-Start-Substrate/blob/master/zh/Lesson%201.md) 完成用户转账功能
+  - [Lesson 0](https://github.com/chainx-org/Quick-Start-Substrate/blob/master/zh/Lesson%200.md) 学习搭建Substrate多节点测试网
+  - [Lesson 1](https://github.com/chainx-org/Quick-Start-Substrate/blob/master/zh/Lesson%201.md) 学习调用区块链接口,实现用户转账功能
+  - [Lesson 2](https://github.com/chainx-org/Quick-Start-Substrate/blob/master/zh/Lesson%202.md) 学习自定义Runtime模块
 - 精通
-  - 学习runtime机制
-  - 学习decl_module与decl_storage宏
-  - 学习设计新模块接口、存储
-  - 学习实现新模块的decl_module与decl_storage
+  - 深入学习Runtime机制
+  - 深入学习decl_module与decl_storage宏
+  - 深入学习runtime模块接口、存储
+  - 实现新模块的decl_module与decl_storage
   - 完成有猜大小游戏功能的功能区块链
 - 超越
-  - 学习staking模块设计
-  - 学习balance模块设计
-  - 学习aura+grandpa模块设计
-  - 学习libp2p模块设计
-  - 学习rpc模块设计
-  - 学习contract模块设计
+  - 深入学习staking模块设计
+  - 深入学习balance模块设计
+  - 深入学习aura+grandpa模块设计
+  - 深入学习libp2p模块设计
+  - 深入学习rpc模块设计
+  - 深入学习contract模块设计
   - 设计一个新型智能合约公链
   - 完成新型智能合约公链的上线与发布
 
@@ -35,17 +34,29 @@ Substrate是Polkadot的底层技术平台和框架，同时也是未来创新区
 
 
 
-可能有用的链接：
 
-rust doc  https://doc.rust-lang.org/
-nodejs doc https://nodejs.org/en/docs/
 
-polkadot https://github.com/paritytech/polkadot
-polkadot explorer https://polkadot.js.org/apps/#/explorer
-substrate https://github.com/paritytech/substrate
-substrate docs https://substrate.readme.io/v1.0.0/docs
+*可能有用的链接：*
 
-telemetry https://telemetry.polkadot.io/
-substrate-ui https://github.com/paritytech/substrate-ui
-oo7 https://github.com/paritytech/oo7
-api docs https://paritytech.github.io/oo7/
+*rust doc  https://doc.rust-lang.org/*
+
+*nodejs doc https://nodejs.org/en/docs/*
+
+*polkadot https://github.com/paritytech/polkadot*
+
+*polkadot explorer https://polkadot.js.org/apps/#/explorer*
+
+*substrate https://github.com/paritytech/substrate*
+
+*substrate docs https://substrate.readme.io/v1.0.0/docs*
+
+*telemetry https://telemetry.polkadot.io/*
+
+*substrate-ui https://github.com/paritytech/substrate-ui*
+
+*oo7 https://github.com/paritytech/oo7*
+
+*api docs https://paritytech.github.io/oo7/*
+
+
+
