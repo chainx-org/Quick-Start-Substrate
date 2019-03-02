@@ -197,7 +197,7 @@ substrate.calls.game.play(lucky).tie((data) => {
 
 经过以上三个课程的学习，恭喜你已经完成了Substrate开发的入门，接下来将进入精通Substrate开发阶段的学习！
 
-本课代码可在https://github.com/chainx-org/Quick-Start-Substrate/tree/master/quick-start-substrate查看
+本课代码可在https://github.com/chainx-org/Quick-Start-Substrate/tree/master/quick-start-substrate 查看
 
 
 

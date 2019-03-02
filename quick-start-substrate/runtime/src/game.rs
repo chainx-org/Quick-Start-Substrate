@@ -1,7 +1,7 @@
 use support::{decl_event, decl_module, decl_storage, dispatch::Result, StorageValue};
 use system::ensure_signed;
 
-pub trait Trait: balances::Trait {
+pub trait Trait: system::Trait + balances::Trait {
     // TODO: Add other types and constants required configure this module.
     type Event: From<Event<Self>> + Into<<Self as system::Trait>::Event>;
 }
@@ -40,16 +40,16 @@ decl_module! {
             //make sure < 10
             let lucky=lucky%10;
             //User must pays 10 coins
-            <balances::Module<T>>::decrease_free_balance(&who, 10)?;
+            let pay:T::Balance=10;
+            <balances::Module<T>>::decrease_free_balance(&who, pay)?;
 
-            // Then we flip a coin by generating a random seed
-            // We pass the seed with our sender's account id into a hash algorithm
-            // Then we check if the first byte of the hash is less than 128
-            if (<system::Module<T>>::random_seed())
+            // Then we check if the first byte of the hash is equal lucky
+            if (<system::Module<T>>::random_seed(), &who)
+            .using_encoded(<T as system::Trait>::Hashing::hash)
             .using_encoded(|e| e[0] % 10 == lucky)
             {
-                //Catch Lucky , Double Coin Back!
-                <balances::Module<T>>::increase_free_balance_creating(&who, 20);
+                //Catch Lucky , Double Coin Back
+                <balances::Module<T>>::increase_free_balance_creating(&who, pay*2);
 
                 //update  count
                 let count=<Count<T>>::get();
