@@ -22,9 +22,8 @@ Runtime是理解和实现Substrate链关键，如果我们想要在Substrate基�
 ### 背景知识
 
 - 基本概念：
-  - *Header* 区块头代表块所有信息，它包括父哈希，存储根和外部trie根，摘要和块高
-  - *Extrinsic* 交易代表区块链的外部数据，如合约调用
-  - *Block*  区块代表Header和Extrinsic的组合
+  - *Runtime* Substrate框架的内置核心组件和自定义功能组件的集装箱
+  - *新模块* 必须具有存储定义、接口定义、事件定义三部分描述
 
 ### 操作步骤
 
