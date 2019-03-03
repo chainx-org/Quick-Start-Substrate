@@ -23,6 +23,7 @@
 ```shell
 sudo apt install cmake pkg-config libssl-dev git clang libclang-dev  #安装依赖
 curl https://sh.rustup.rs -sSf | sh
+source $HOME/.cargo/env
 rustup update nightly
 rustup target add wasm32-unknown-unknown --toolchain nightly #为工具链安装目标
 rustup update stable

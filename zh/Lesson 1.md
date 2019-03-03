@@ -32,7 +32,7 @@ oo7-substrate框架是与Substrate高度匹配的API库。自动完成与Substra
 ```shell
 mkdir app
 cd app
-npm install oo7-substrate tweetnacl
+npm install oo7-substrate
 ```
 
 #### 调用接口，获得链信息

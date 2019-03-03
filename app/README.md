@@ -1,1 +1,1 @@
-npm install oo7-substrate tweetnacl
+npm install oo7-substrate 
