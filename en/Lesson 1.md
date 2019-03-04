@@ -1,57 +1,62 @@
-## Lesson 1 学习调用区块链API接口实现用户转账
+# Lession 1: Transfer via blockchain API
 
-*欢迎转载，请务必注明出处*
+### Introduction
 
-### 前言
+RPC is one way of providing services to external world in blockchain. We could use RPC call to interact with the chain. Substrate RPC is highly abstract and only contains four modules, but it has covered all the functions. Thanks to the remarkable metadata machanism, all changes in the chain will be passed to the client automatically.
 
-RPC是区块链对外提供的API方式之一。因此用户可以选择通过RPC调用的方式与区块链交互。Substrate的RPC高度抽象，只对外提供了四个模块，但它涵盖链的全部功能接口。并且Substrate有优秀的Metadata机制设计，链功能接口的变更会自动传导到调用客户端，客户端无需关注细节。
+[oo7-substrate](https://github.com/paritytech/oo7/tree/master/packages/oo7-substrate) is a package focusing on providing the substrate related functionalities, which encapsulates the metadata of substrate so that the client could merely focus on the functions and don't need to pay any attention to the logic of blockchain itself.
 
-oo7-substrate框架是与Substrate高度匹配的API库。自动完成与Substrate链Metadata的对接。客户端只需关注具体功能接口而无需关注链本身逻辑。
+In this lession we'll learn how to get information of the chain built in previous lession [Lesson 0](Lesson 0.md) and transfer between accounts via oo7-substrate.
 
-本课学习如何利用oo7-substrate调用[Lesson 0](https://github.com/chainx-org/Quick-Start-Substrate/blob/master/zh/Lesson%200.md) 中构建的Substrate网络，获取链信息，并实现用户转账功能。
+Notes:
 
-*注意：本课程所有操作在Ubuntu 16操作系统下为示例，其他操作系统不保证预期完全一样*
+- All the instructions are operated on Ubuntu 16.04, other operating systems are not guranteed to behave exactly shown in this lession.
+- Code used in this lession can be found at [app](../app/) directory.
 
-### 背景知识
+### Basics
 
-- 基本概念：
-  - *Header* 区块头代表块所有信息，它包括父哈希，存储根和外部trie根，摘要和块高
-  - *Extrinsic* 交易代表区块链的外部数据，如合约调用
-  - *Block*  区块代表Header和Extrinsic的组合
+Excerpt from [substrate.readme.io](https://substrate.readme.io/v1.0.0/docs#section-core-datatypes):
 
-### 操作步骤
+- `Header`: a type which is representative (cryptographically or otherwise) of all information relevant to a block. It includes the parent hash, the storage root and the extrinsics trie root, the digest and a block number.
+- `Extrinsic`: a type to represent a single piece of data external to the blockchain that is recognised by the blockchain. This typically involves one or more signatures, and some sort of encoded instruction (e.g. for transferring ownership of funds or calling into a smart contract).
+- `Block`: essentially just a combination of `Header` and a series of `Extrinsic`s, together with a specification of the hashing algorithm to be used.
 
-#### 安装NodeJs环境
+### Operating steps
 
-参考[NodeJs官网](https://nodejs.org/en/) 安装NodeJs，并且将其升级到node>v10.10.0,npm>6.4.1。
+#### Install NodeJs
 
-#### 初始化客户端环境，安装oo7依赖
+Refer to [NodeJs Website](https://nodejs.org/en/) to install NodeJs and ensure:
 
-新建app目录，安装oo7-substrate包
+- node > v10.10.0
+- npm > 6.4.1
 
-```shell
+#### Install oo7 dependencies
+
+Let's create a new directory called `app` and install oo7-substrate package:
+
+```bash
 mkdir app
 cd app
 npm install oo7-substrate
 ```
 
-#### 调用接口，获得链信息
+#### Get info from blockchain via APIs
 
-新建chain.js 文件，使用oo7连接测试网，并订阅块高度增长信息
+Create new a javascript file called `chain.js` and copy all the snippets below into it. We'll use oo7 to connect to the local testnet and subscribe the information of blockchain height.
 
 ```javascript
 const substrate = require('oo7-substrate');
 
-substrate.setNodeUri(["ws://127.0.0.1:9944"]); //设置节点RPC ws协议地址
-//初始化oo7环境
+substrate.setNodeUri(["ws://127.0.0.1:9944"]); // Set websocket address of node PRC
+// Initialize oo7 environment
 substrate.runtimeUp.then(() => {
-    substrate.chain.height.tie(height => { //订阅链的块高度变更
+    substrate.chain.height.tie(height => { // Subscribe the changes of blockchain height
         console.log(`new block by block number: ${height}`);
       });
 })
 ```
 
- 执行chain.js 文件，会有类似持续输出：
+Run `chain.js`, you'll see a output stream like this:
 
 ```javascript
 ...
@@ -61,68 +66,68 @@ new block by block number: 222
 new block by block number: 223
 ```
 
-以上输出代表客户端已经成功连接上测试网，并且监听到了网络信息的变更！
+That means the client has connected to the testnet and monitored the changes of blockchain successfully.
 
-*substrate.chain对象下面还有其他对Header、Hash、Block订阅的接口，可以深入学习*
+The object `substrate.chain` also contains other subscribe interfaces, such as `Header`、`Hash` and `Block`. Try it by yourself!
 
-#### 调用接口，查询账户余额
+#### Check account balance
 
-测试网中已为Alice和Bob预置了一定数量的Coin。接下来我们就利用*substrate.calls*提供的API接口，实现查询账户功能。
+Alice and Bob are endowed some coins by default in the local testnet. Next, we'll implement a new functionality to check account balance based on `substrate.calls`.
 
-新建balance.js文件，代码如下：
+Create a new file called `balance.js` and copy all the snippets into it:
 
 ```javascript
 const substrate = require('oo7-substrate');
 const nacl = require('tweetnacl');
-substrate.setNodeUri(["ws://127.0.0.1:9944"]); //设置节点RPC ws协议地址
+substrate.setNodeUri(["ws://127.0.0.1:9944"]); // Set websocket address of node PRC
 
 let Alice_KeyPair=nacl.sign.keyPair.fromSeed(substrate.stringToSeed('Alice'))//Alice的seed
 
-//初始化oo7环境
+// Initialize oo7 environment
 substrate.runtimeUp.then(() => {
     substrate.runtime.balances.freeBalance(Alice_KeyPair.publicKey).then((v) => {
         console.log(substrate.bytesToHex(Alice_KeyPair.publicKey),'Alice FreeBalance=' ,v.toString())
     })
 })
-
 ```
 
-*其中substrate.runtime.balances.freeBalance是测试网runtime中balances模块提供的转账接口，在substrate.runtime对象下面还有其他模块和接口可以调用，其与quick_start_substrate/rntime/src/lib.rs 中的声明是完全一致的，当链上runtime模块和接口变更时oo7的substrate.runtime也会自动适应变更，因此客户端程序非常容易接入Substrate链！*
+It's notable that `substrate.runtime` is adaptive to the changes of runtime of chain. When runtime on chain changes, `substrate.runtime` will update automatically, making the client easier to interact with substrate chain.
 
-执行以上文件node balance.js 即可看到以下类似输出：
+You'll see the output similar to the following content by running this command `node balance.js`:
 
-```javascript
+```bash
 d172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f Alice FreeBalance= 100000000
 ```
 
-FreeBalance= 100000000即是Alice的余额。
+Obviously, the balance of Alice is `100000000`.
 
+#### Transfer to another account
 
+Sending transction involves the private key management of account. oo7 provides the class `secretstore` as the private key manager. In order to be able to sign the transaction automatically, we need to submit our private key to the local key manager before sending transction.
 
-#### 调用接口，实现账户之间转账
-
-发送交易需要涉及到用户账户私钥管理，oo7中提供了secretstore类作为私钥管理器。因此在发送交易之前需要先 提交账户私钥信息到本地管理器中，接口自动调用签名。
-
-在这里我们调用substrate.calls.balances.transfer接口发起转账，新建transfer.js文件代码如下：
+We use `substrate.calls.balances.transfer` to send a transfer transaction. Create a new file called `transfer.js`:
 
 ```javascript
 const substrate = require('oo7-substrate');
 const nacl = require('tweetnacl');
 let secretstore = substrate.secretStore();
-substrate.setNodeUri(["ws://127.0.0.1:9944"]); //设置节点RPC ws协议地址
+substrate.setNodeUri(["ws://127.0.0.1:9944"]); // Set websocket address of node PRC
 
-//将Alice放入私钥管理器，便于交易签名
-let Alice_seed=substrate.stringToSeed('Alice') //Alice的seed
-let Alice_KeyPair=nacl.sign.keyPair.fromSeed(Alice_seed)
-secretstore._keys.push({ seed:Alice_seed, name:'Alice' });
+// Add Alice to the secret storge so that we could use it to sign the transaction
+let Alice_seed = substrate.stringToSeed('Alice') //Alice的seed
+let Alice_KeyPair = nacl.sign.keyPair.fromSeed(Alice_seed)
+secretstore._keys.push({
+    seed: Alice_seed,
+    name: 'Alice'
+});
 secretstore._sync();
 
-let Bob_KeyPair=nacl.sign.keyPair.fromSeed(substrate.stringToSeed('Bob'))//Bob的seed
+let Bob_KeyPair = nacl.sign.keyPair.fromSeed(substrate.stringToSeed('Bob')) //Bob的seed
 
-//初始化oo7环境
+// Initialize oo7 environment
 substrate.runtimeUp.then(() => {
-    substrate.calls.balances.transfer(Bob_KeyPair.publicKey,100).tie((data) => {
-        //发送交易
+    substrate.calls.balances.transfer(Bob_KeyPair.publicKey, 100).tie((data) => {
+        // Sending transction
         substrate.post({
             sender: Alice_KeyPair.publicKey,
             call: data,
@@ -130,10 +135,9 @@ substrate.runtimeUp.then(() => {
             console.log(msg);
         });
     })
-})
-```
+})```
 
-执行transfer.js，即可看到类似下面信息:
+Runn `transfer.js` and you'll see the following messages:
 
 ```javascript
 { sending: true }
@@ -143,15 +147,12 @@ ready
    '0x4cf58f2373d63d591533e88b1c53c4bbbb2b53b75162dce4f9cc7151c3289e01' }
 ```
 
-以上`sending`：表明交易已被签名，`broadcast`：已被广播，`finalised`：交易已被区块链处理。此时，我们再去执行`node balance.js`查询Alice到余额，返回结果中可以看到Alice余额与转账之前已发生变化。
+- `sending`：means the transaction has been signed.
+- `broadcast`：means the transaction has been broadcasted.
+- `finalised`：means the transaction bas been processed by the blockchain.
 
-### 总结
+Now, we check the balance of Alice again by running `node balance.js`. We could clearly see the balance has been altered from the response.
 
-本课中，我们学习了利用oo7与Substrate链API进行交互，实现了余额查询和转账功能。更进一步学习，可以利用API实时获取Substrate链的所有信息，搭建一个区块链浏览器。
+### Conclusion
 
-*本课代码可在https://github.com/chainx-org/Quick-Start-Substrate/tree/master/app 查看*
-
-
-
-
-
+In this lesson, we learnt how to interact with Substrate chain via its API and oo7, implemented balance checking and transfering between accounts. If you want to learn more about substrate, you could definitely build a substrate explorer by grabing various information in real time based the APIs!
