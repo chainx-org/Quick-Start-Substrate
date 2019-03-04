@@ -51,9 +51,9 @@ cd Quick-Start-Substrate/quick-start-substrate
 
    *注意，节点程序中默认配置了Alice和Bob为验证人，其中*
 
-   *Alice的key为0x416c696365202020202020202020202020202020202020202020202020202020*
+   *Alice的seed为Alice*
 
-   *Bob的key为0x426f622020202020202020202020202020202020202020202020202020202020*
+   *Bob的seed为Bob*
 
    *在下文启动节点会用到*
 
@@ -62,7 +62,7 @@ cd Quick-Start-Substrate/quick-start-substrate
 执行第一个节点Alice启动命令
 
 ```
-./target/debug/quick-start-substrate --chain=local --validator --key=0x416c696365202020202020202020202020202020202020202020202020202020 --base-path=./Alice
+./target/debug/quick-start-substrate --chain=local --validator --key=Alice --base-path=./Alice
 ```
 
 启动参数说明
@@ -88,7 +88,7 @@ cd Quick-Start-Substrate/quick-start-substrate
 新开一个终端，进入同样的目录，执行第二个节点Bob的启动命令
 
 ```
-./target/debug/quick-start-substrate --chain=local --validator --key=0x426f622020202020202020202020202020202020202020202020202020202020 --base-path=./Bob --bootnodes=/ip4/127.0.0.1/tcp/30333/p2p/QmVky5aVaPhardUzSfYSQPhAhdkNiMQVzRGyPEe2vkxn3U
+./target/debug/quick-start-substrate --chain=local --validator --key=Bob --base-path=./Bob --bootnodes=/ip4/127.0.0.1/tcp/30333/p2p/*******
 ```
 
 启动参数说明
