@@ -9,9 +9,9 @@ Substrate is increasingly stable even though it's still being in a rapid develop
 Given you already have a good knowledge of blockchain basics (at least familiar with the concept of block, transaction, consensus, p2p, signature etc.) as well as some working coding experiences, everyone could master substrate in the following three stages:
 
 - Stage 1:
-    - [Lesson 0](https://github.com/chainx-org/Quick-Start-Substrate/blob/master/zh/Lesson%200.md) Local two nodes testnet
-    - [Lesson 1](https://github.com/chainx-org/Quick-Start-Substrate/blob/master/zh/Lesson%201.md) Transfer via blockchain APIs
-    - [Lesson 2](https://github.com/chainx-org/Quick-Start-Substrate/blob/master/zh/Lesson%202.md) Customize Runtime Module
+    - [Lesson 0](https://github.com/chainx-org/Quick-Start-Substrate/blob/master/en/Lesson%200.md) Local two nodes testnet
+    - [Lesson 1](https://github.com/chainx-org/Quick-Start-Substrate/blob/master/en/Lesson%201.md) Transfer via blockchain APIs
+    - [Lesson 2](https://github.com/chainx-org/Quick-Start-Substrate/blob/master/en/Lesson%202.md) Customize Runtime Module
 
 - Stage 2:
     - Learning Runtime machanism

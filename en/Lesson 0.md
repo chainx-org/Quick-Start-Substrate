@@ -77,8 +77,6 @@ excerpt from `quick-start-substrate --help`:
 --base-path <PATH>                           Specify custom base path.
 ```
 
-启动参数说明
-
 -  `--chain=local`: means we are going to run a local testnet with two validators: Alice and Bob.
 -  `--validator`: means to run as an authority node.
 -  `--key`: validator node needs a private key for block authoring.
