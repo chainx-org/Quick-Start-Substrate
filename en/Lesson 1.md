@@ -135,11 +135,12 @@ substrate.runtimeUp.then(() => {
             console.log(msg);
         });
     })
-})```
+})
+```
 
 Runn `transfer.js` and you'll see the following messages:
 
-```javascript
+```bash
 { sending: true }
 ready
 { broadcast: [ 'Qmcbbyx5zJuHSp2gmA9E6WjJirvj3pFdFUYSFQBpjsQBKJ' ] }
